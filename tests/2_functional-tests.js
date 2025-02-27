@@ -48,7 +48,7 @@ suite("Functional Tests", () => {
                 locale: "american-to-british",
             })
             .end((err, res) => {
-                assert.strictEqual(res.body.error, "Missing required field(s)");
+                assert.strictEqual(res.body.error, "Required field(s) missing");
                 done();
             });
     });
@@ -60,7 +60,7 @@ suite("Functional Tests", () => {
                 text: "Can you toss this in the trashcan for me?",
             })
             .end((err, res) => {
-                assert.strictEqual(res.body.error, "Missing required field(s)");
+                assert.strictEqual(res.body.error, "Required field(s) missing");
                 done();
             });
     });
