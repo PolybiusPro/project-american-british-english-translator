@@ -224,4 +224,47 @@ suite("Unit Tests", () => {
             done();
         });
     });
+
+    suite("Highlight translation tests", () => {
+        test("Highlight translation in Mangoes are my favorite fruit.", (done) => {
+            temp.innerHTML = translate.translate(
+                "Mangoes are my favorite fruit.",
+                "american-to-british"
+            );
+            const highlight = temp.querySelector(".highlight");
+            assert.isNotNull(highlight);
+            assert.strictEqual(highlight.textContent, "favourite");
+            done();
+        });
+        test("Highlight translation in I ate yogurt for breakfast.", (done) => {
+            temp.innerHTML = translate.translate(
+                "I ate yogurt for breakfast.",
+                "american-to-british"
+            );
+            const highlight = temp.querySelector(".highlight");
+            assert.isNotNull(highlight);
+            assert.strictEqual(highlight.textContent, "yoghurt");
+            done();
+        });
+        test("Highlight translation in We watched the footie match for a while.", (done) => {
+            temp.innerHTML = translate.translate(
+                "We watched the footie match for a while.",
+                "british-to-american"
+            );
+            const highlight = temp.querySelector(".highlight");
+            assert.isNotNull(highlight);
+            assert.strictEqual(highlight.textContent, "soccer");
+            done();
+        });
+        test("Highlight translation in Paracetamol takes up to an hour to work.", (done) => {
+            temp.innerHTML = translate.translate(
+                "Paracetamol takes up to an hour to work",
+                "british-to-american"
+            );
+            const highlight = temp.querySelector(".highlight");
+            assert.isNotNull(highlight);
+            assert.strictEqual(highlight.textContent, "Tylenol");
+            done();
+        });
+    });
 });
