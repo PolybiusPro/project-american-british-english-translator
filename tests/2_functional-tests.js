@@ -19,7 +19,7 @@ suite("Functional Tests", () => {
             .end((err, res) => {
                 assert.strictEqual(
                     res.body.translation,
-                    "Can you toss this in the <span class='highlight'>bin</span> for me?"
+                    `Can you toss this in the <span class="highlight">bin</span> for me?`
                 );
                 done();
             });
