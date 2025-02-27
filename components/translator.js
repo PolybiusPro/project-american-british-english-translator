@@ -10,7 +10,6 @@ class Translator {
 
     replacer(translation, regex, alt) {
         return translation.replace(regex, (match) => {
-            console.log(match);
             return this.wrapHighlight(
                 /^[A-Z]/.test(match) ? alt[0].toUpperCase() + alt.slice(1) : alt
             );
@@ -33,10 +32,29 @@ class Translator {
         const isToBritish = locale === "american-to-british";
         translation = this.replaceTime(translation, isToBritish);
 
-        for (const [american, british] of Object.entries({
-            ...americanToBritishSpelling,
-            ...americanOnly,
-        })) {
+        //handle words
+        if (isToBritish) {
+            for (const [american, british] of Object.entries(americanOnly)) {
+                translation = this.replacer(
+                    translation,
+                    new RegExp(`\\b${american}\\b`, "gi"),
+                    british
+                );
+            }
+        } else {
+            for (const [british, american] of Object.entries(britishOnly)) {
+                translation = this.replacer(
+                    translation,
+                    new RegExp(`(?<!\-)\\b${british}\\b`, "gi"),
+                    american
+                );
+            }
+        }
+
+        //handle spelling
+        for (const [american, british] of Object.entries(
+            americanToBritishSpelling
+        )) {
             translation = this.replacer(
                 translation,
                 new RegExp(`\\b${isToBritish ? american : british}\\b`, "gi"),
@@ -44,24 +62,15 @@ class Translator {
             );
         }
 
+        //handle titles
         for (const [american, british] of Object.entries(
             americanToBritishTitles
         )) {
             translation = this.replacer(
                 translation,
-                new RegExp(`\\b${isToBritish ? american : british}`, "gi"),
+                new RegExp(`\\b${british}${isToBritish ? "\\." : "\\b"}`, "gi"),
                 isToBritish ? british : american
             );
-        }
-
-        if (!isToBritish) {
-            for (const [british, american] of Object.entries(britishOnly)) {
-                translation = this.replacer(
-                    translation,
-                    new RegExp(british, "gi"),
-                    american
-                );
-            }
         }
 
         return translation;
