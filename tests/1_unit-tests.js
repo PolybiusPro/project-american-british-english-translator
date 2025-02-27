@@ -156,7 +156,7 @@ suite("Unit Tests", () => {
             );
             assert.strictEqual(
                 temp.textContent,
-                "I spent the public holiday at the carnival"
+                "I spent the public holiday at the carnival."
             );
             done();
         });
