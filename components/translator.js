@@ -10,6 +10,7 @@ class Translator {
 
     replacer(translation, regex, alt) {
         return translation.replace(regex, (match) => {
+            console.log(match);
             return this.wrapHighlight(
                 /^[A-Z]/.test(match) ? alt[0].toUpperCase() + alt.slice(1) : alt
             );
@@ -33,13 +34,22 @@ class Translator {
         translation = this.replaceTime(translation, isToBritish);
 
         for (const [american, british] of Object.entries({
-            ...americanToBritishTitles,
             ...americanToBritishSpelling,
             ...americanOnly,
         })) {
             translation = this.replacer(
                 translation,
-                new RegExp(isToBritish ? american : british, "gi"),
+                new RegExp(`\\b${isToBritish ? american : british}\\b`, "gi"),
+                isToBritish ? british : american
+            );
+        }
+
+        for (const [american, british] of Object.entries(
+            americanToBritishTitles
+        )) {
+            translation = this.replacer(
+                translation,
+                new RegExp(`\\b${isToBritish ? american : british}`, "gi"),
                 isToBritish ? british : american
             );
         }
